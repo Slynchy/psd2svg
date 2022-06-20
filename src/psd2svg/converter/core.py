@@ -67,10 +67,18 @@ class LayerConverter(object):
         """Create and fill in a new group element."""
         if not container:
             container = self._dwg.g()
+            if hasattr(group, 'bbox'):
+                container.attribs['x'] = group.bbox[0]
+                container.attribs['y'] = group.bbox[1]
         for layer in group:
             element = self.convert_layer(layer)
             if not element:
                 continue
+            # if element has x/y, then offset by parent
+            if 'x' in element.attribs and 'x' in container.attribs:
+                element.attribs['x'] = element.attribs['x'] - container.attribs['x']
+            if 'y' in element.attribs and 'x' in container.attribs:
+                element.attribs['y'] = element.attribs['y'] - container.attribs['y']
             container.add(element)
 
             # Clipping layers are in the separate element.
