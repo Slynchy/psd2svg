@@ -1,3 +1,5 @@
+(this package is tweaked to output PSD/PSB layer positions to the resulting SVG)
+
 PSD2SVG
 =======
 
